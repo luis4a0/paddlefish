@@ -26,7 +26,7 @@ custom_object.o document.o file_stream.o flate.o font.o graphics_state.o \
 image.o info.o ocg.o page.o resources_dict.o text.o text_state.o util.o
 
 EXT_LIBS_DEFS=-DPADDLEFISH_USE_ZLIB
-CXXPARAMS=-g ${EXT_LIBS_DEFS} -ITest/ -Wall -pedantic -std=c++11 #-ansi
+CXXPARAMS=-g ${EXT_LIBS_DEFS} -Wall -pedantic -std=c++11 #-ansi
 OPTIMIZATION=-O0
 EXT_LIBS=-lm -lz
 
