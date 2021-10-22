@@ -14,6 +14,6 @@ to a document makes the page exclusive to that document.
 Use CMake for building, in order to compile in many architectures (at
 least, GNU/Linux, MacOS, Windows).
 
-## Continuous integration
+## Testing, continuous integration
 
-Use Travis.
+Use Travis or GitHub actions and add tests.

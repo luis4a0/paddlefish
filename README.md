@@ -16,6 +16,10 @@ returns an identifier, which can be used to reference the object later. On
 the other hand, a local object only receives an object number when it is
 written on the page, that is, only when the final document is produced.
 
+## Quick start
+
+Run `make` and see the code in `examples/` to see how things work.
+
 ## Output file structure
 
 Objects on the output PDF are written in the following order. Object 1 is
@@ -80,3 +84,9 @@ information is transferred, and the object numbers of the OCG's computed.
 
 I grepped for `p.*d.*f.*` a file with thousand of words and choose
 'paddlefish' because I love the river and everything related to it.
+
+## Using, contributing, requesting features
+
+If you find this library useful, I'd be happy to hear about how you use it.
+If you think the software can be improved by adding/changing something,
+please let me know. I'll appreciate any comment regarding the library.
