@@ -38,5 +38,8 @@ ${LIBNAME}: ${OBJECTS}
 
 all: ${LIBNAME}
 
+install: ${LIBNAME}
+	install -D ${LIBNAME} ${DESTDIR}
+
 clean:
 	rm -f *.o ${LIBNAME}
