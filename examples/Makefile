@@ -25,15 +25,12 @@ CXXPARAMS=-g ${EXT_LIBS_DEFS} -Wall -pedantic -std=c++11 #-ansi
 OPTIMIZATION=-O0
 EXT_LIBS=-lm -lz
 
-EXAMPLES=basic indexed pattern empdfer
+EXAMPLES=basic indexed pattern
 
 %: %.cpp
 	g++ ${CXXPARAMS} ${OPTIMIZATION} $< -L${PDF_LIB_PATH} -l${PDF_LIB} ${EXT_LIBS} -o $@
 
 all: ${PDF_LIB_PATH}/lib${PDF_LIB}.a ${EXAMPLES}
-
-empdfer: empdfer.cpp
-	g++ ${CXXPARAMS} ${OPTIMIZATION} $< -L${PDF_LIB_PATH} -l${PDF_LIB} ${EXT_LIBS} -ljpeg -o $@
 
 clean:
 	rm -f *.o ${EXAMPLES} ${LIBNAME}
