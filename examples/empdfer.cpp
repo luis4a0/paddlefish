@@ -132,11 +132,28 @@ int main(int argc, char *argv[])
   // Set the page size.
   p->set_mediabox(0, 0, MILIMETERS(page_x_mm), MILIMETERS(page_y_mm));
 
-  // Add the jpeg image to the page.
-  p->add_jpeg_image(input_file,
-                    cinfo.image_width, cinfo.image_height,
-                    MILIMETERS(margin_x_mm), MILIMETERS(margin_y_mm), MILIMETERS(img_x_mm), MILIMETERS(img_y_mm),
-                    COLORSPACE_DEVICERGB);
+  // TODO: remove showing this debug information.
+  std::cerr << "jpeg_color_space=" << cinfo.jpeg_color_space <<
+    ", out_color_space=" << cinfo.out_color_space << std::endl;
+
+  // Add the jpeg image to the page. For this, try find which color space
+  // the image is in.
+  switch (cinfo.jpeg_color_space)
+  {
+    case JCS_GRAYSCALE:
+      p->add_jpeg_image(input_file,
+                        cinfo.image_width, cinfo.image_height,
+                        MILIMETERS(margin_x_mm), MILIMETERS(margin_y_mm), MILIMETERS(img_x_mm), MILIMETERS(img_y_mm),
+                        COLORSPACE_DEVICEGRAY);
+      break;
+
+    default:
+      p->add_jpeg_image(input_file,
+                        cinfo.image_width, cinfo.image_height,
+                        MILIMETERS(margin_x_mm), MILIMETERS(margin_y_mm), MILIMETERS(img_x_mm), MILIMETERS(img_y_mm),
+                        COLORSPACE_DEVICERGB);
+      break;
+  }
 
   d->push_back_page(p);
 
