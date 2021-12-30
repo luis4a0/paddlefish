@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+# Copyright (c) 2017-2021 Luis Peñaranda. All rights reserved.
 #
 # This file is part of paddlefish.
 #
@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-# Do NOT use -ansi in CXXPARAMS when using valgrind. It is also better
-# to use -O0 in OPTIMIZATION.
+# When using valgrind, use -g in CXXPARAMS but do NOT use -ansi. It is also
+# better to use -O0 in OPTIMIZATION in this case.
 
 LIB=paddlefish
 LIBNAME=lib${LIB}.a
@@ -26,8 +26,8 @@ custom_object.o document.o file_stream.o flate.o font.o graphics_state.o \
 image.o info.o ocg.o page.o resources_dict.o text.o text_state.o util.o
 
 EXT_LIBS_DEFS=-DPADDLEFISH_USE_ZLIB
-CXXPARAMS=-g ${EXT_LIBS_DEFS} -Wall -pedantic -std=c++11 #-ansi
-OPTIMIZATION=-O0
+CXXPARAMS=-ansi ${EXT_LIBS_DEFS} -Wall -pedantic -std=c++11
+OPTIMIZATION=-O2
 EXT_LIBS=-lm -lz
 
 %.o: %.cpp
