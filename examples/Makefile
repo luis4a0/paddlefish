@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+# Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 #
 # This file is part of paddlefish.
 #
@@ -25,7 +25,7 @@ CXXPARAMS=-g ${EXT_LIBS_DEFS} -Wall -pedantic -std=c++11 #-ansi
 OPTIMIZATION=-O0
 EXT_LIBS=-lm -lz
 
-EXAMPLES=basic indexed pattern
+EXAMPLES=basic blank indexed pattern
 
 %: %.cpp
 	g++ ${CXXPARAMS} ${OPTIMIZATION} $< -L${PDF_LIB_PATH} -l${PDF_LIB} ${EXT_LIBS} -o $@
