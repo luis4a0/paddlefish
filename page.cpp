@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -60,6 +60,23 @@ void Page::add_jpeg_image(const std::string &filename,
                                             y_pos,
                                             width,
                                             height,
+                                            filename,
+                                            cs)));
+
+  ++images_count;
+
+  return;
+}
+
+void Page::add_jpeg_image(const std::string &filename,
+                          unsigned jpeg_width,
+                          unsigned jpeg_height,
+                          double *matrix23,
+                          unsigned cs)
+{
+  page_objects.push_back(ImagePtr(new Image(jpeg_width,
+                                            jpeg_height,
+                                            matrix23,
                                             filename,
                                             cs)));
 

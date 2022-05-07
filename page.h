@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -64,6 +64,15 @@ class Page{
                             double y_pos,
                             double width,
                             double weight,
+                            unsigned cs = COLORSPACE_DEVICERGB);
+
+        // Analogously to the previous function, this one adds a JPEG image to
+        // the page. The position and size of the image are defined by the
+        // 2x3 matrix.
+        void add_jpeg_image(const std::string &filename,
+                            unsigned jpeg_width,
+                            unsigned jpeg_height,
+                            double *matrix23,
                             unsigned cs = COLORSPACE_DEVICERGB);
 
         // Adds an image given its bytes, size and position.

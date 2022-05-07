@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -62,6 +62,38 @@ Image::Image(unsigned x_size,
   matrix[5] = y_pos;
 }
 
+Image::Image(unsigned x_size,
+             unsigned y_size,
+             double *matrix23,
+             const std::string &file,
+             unsigned cs,
+             bool flate):
+    bytes(NULL),
+    bytes_size(0),
+    bpc(8),
+    image_type(Image::Type::JPEG),
+    filename(file),
+    colorspace(cs),
+    decode(NULL)
+{
+#ifdef PADDLEFISH_USE_ZLIB
+  use_flate = flate;
+#else
+  use_flate = false;
+#endif
+
+  use_soft_mask = false;
+
+  image_size[0] = x_size;
+  image_size[1] = y_size;
+  stride = (unsigned)ceil((double)(image_size[0] * channels*bpc) / 8.0);
+  raw_size = stride * y_size;
+
+  matrix = (double*)malloc(6 * sizeof(double));
+  for (size_t i = 0; i < 6; ++i)
+    matrix[i] = matrix23[i];
+}
+
 Image::Image(const unsigned char *raw_bytes,
              bool uses_soft_mask,
              unsigned bits_per_component,
@@ -114,7 +146,6 @@ Image::Image(const unsigned char *raw_bytes,
   bpc(bits_per_component),
   channels(number_of_channels),
   image_type(Image::Type::RAW),
-  matrix(matrix23),
   filename(""),
   colorspace(cs),
   decode(NULL),
@@ -132,6 +163,10 @@ Image::Image(const unsigned char *raw_bytes,
   raw_size = stride * image_height;
 
   fill_bytes(raw_bytes);
+
+  matrix = (double*)malloc(6 * sizeof(double));
+  for (size_t i = 0; i < 6; ++i)
+    matrix[i] = matrix23[i];
 }
 
 Image::Image(const unsigned char *mask_bytes,
@@ -143,7 +178,6 @@ Image::Image(const unsigned char *mask_bytes,
 bpc(1),
 channels(1),
 image_type(Image::Type::IMAGE_MASK),
-matrix(matrix23),
 filename(""),
 colorspace(0), // The colorspace is unused in this kind of image.
 decode(decode_array),
@@ -161,6 +195,10 @@ use_soft_mask(false)
   raw_size = stride * image_height;
 
   fill_bytes(mask_bytes);
+
+  matrix = (double*)malloc(6 * sizeof(double));
+  for (size_t i = 0; i < 6; ++i)
+    matrix[i] = matrix23[i];
 }
 
 Image::~Image()

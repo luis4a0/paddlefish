@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -51,6 +51,15 @@ class Image: public PdfObject
               double y_pos,
               double print_width,
               double print_height,
+              const std::string &file,
+              unsigned cs = COLORSPACE_DEVICERGB,
+              bool flate = true);
+
+        // Analogous to the constructor above. Size, position, rotation are
+        // specified by a matrix.
+        Image(unsigned x_size,
+              unsigned y_size,
+              double *matrix23,
               const std::string &file,
               unsigned cs = COLORSPACE_DEVICERGB,
               bool flate = true);
