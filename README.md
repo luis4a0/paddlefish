@@ -18,7 +18,9 @@ written on the page, that is, only when the final document is produced.
 
 ## Quick start
 
-Run `make` and see the code in `examples/` to see how things work.
+The library can be configured, built and installed with CMake. The examples
+provided in the `examples/` folder can be inspiring to understand how the
+library works.
 
 ## Output file structure
 
@@ -36,11 +38,10 @@ only one cross-reference table.
 
 ## Zlib
 
-If present, zlib implements the flate encoding of some sections of the PDF.
+If present, `zlib` implements the flate encoding of some parts of the PDF.
 If not, the output will be anyway perfectly valid. To disable the use of
-zlib, undefine PADDLEFISH_USE_ZLIB and avoid linking against this lib.
-Undefining it can be useful to see the uncompressed contents of a produced
-PDF with any text editor.
+zlib, set `PADDLEFISH_USE_ZLIB` to `OFF` in CMake. This can be useful to see
+the uncompressed contents of a produced PDF with any text editor.
 
 ## Images
 
