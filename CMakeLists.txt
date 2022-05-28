@@ -15,6 +15,15 @@ else(BUILD_SHARED_LIBS)
     set(PADDLEFISH_LIB_TYPE "STATIC")
 endif(BUILD_SHARED_LIBS)
 
+add_compile_options(-ansi)
+add_compile_options(-Wall)
+add_compile_options(-pedantic)
+add_compile_options(-DPADDLEFISH_VERSION_MAJOR=${PROJECT_VERSION_MAJOR})
+add_compile_options(-DPADDLEFISH_VERSION_MINOR=${PROJECT_VERSION_MINOR})
+add_compile_options(-DPADDLEFISH_VERSION_PATCH=${PROJECT_VERSION_PATCH})
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
 add_library(paddlefish ${PADDLEFISH_LIB_TYPE} cid_to_gid.cpp color_profile.cpp
             colorspace_properties.cpp command.cpp custom_object.cpp
             document.cpp file_stream.cpp flate.cpp font.cpp graphics_state.cpp
@@ -42,12 +51,6 @@ endif(PADDLEFISH_USE_ZLIB)
 include(GNUInstallDirs)
 install(FILES ${HEADERS} DESTINATION "include")
 install(TARGETS paddlefish LIBRARY)
-
-add_compile_options(-ansi)
-add_compile_options(-Wall)
-add_compile_options(-pedantic)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 target_link_libraries(paddlefish m)
 
