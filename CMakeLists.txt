@@ -15,9 +15,12 @@ else(BUILD_SHARED_LIBS)
     set(PADDLEFISH_LIB_TYPE "STATIC")
 endif(BUILD_SHARED_LIBS)
 
+if(NOT MSVC)
 add_compile_options(-ansi)
 add_compile_options(-Wall)
 add_compile_options(-pedantic)
+endif (NOT MSVC)
+
 add_compile_options(-DPADDLEFISH_VERSION_MAJOR=${PROJECT_VERSION_MAJOR})
 add_compile_options(-DPADDLEFISH_VERSION_MINOR=${PROJECT_VERSION_MINOR})
 add_compile_options(-DPADDLEFISH_VERSION_PATCH=${PROJECT_VERSION_PATCH})
@@ -48,9 +51,10 @@ if(PADDLEFISH_USE_ZLIB)
     target_link_libraries(paddlefish z)
 endif(PADDLEFISH_USE_ZLIB)
 
+if (NOT MSVC)
 include(GNUInstallDirs)
 install(FILES ${HEADERS} DESTINATION "include")
 install(TARGETS paddlefish LIBRARY)
 
 target_link_libraries(paddlefish m)
-
+endif (NOT MSVC)
