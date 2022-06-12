@@ -30,45 +30,43 @@ ColorProfile::ColorProfile(ColorProfile::Type t,
 {
   if (t != ColorProfile::Type::CALRGB && t != ColorProfile::Type::CALGRAY)
   {
-    contents = "ERROR";
+    throw std::runtime_error("color profile must be CALRGB or CALGRAY");
+  }
+
+  if (ColorProfile::Type::CALRGB == t)
+  {
+    contents = "[ /CalRGB\n";
   }
   else
   {
-    if (ColorProfile::Type::CALRGB == t)
-    {
-      contents = "[ /CalRGB\n";
-    }
-    else
-    {
-      contents = "[ /CalGray\n";
-    }
-    contents += "<< /WhitePoint [ " +
-      util::vector_to_string(white_point, 3) + " ]\n";
-    if (black_point)
-    {
-      contents += "   /BlackPoint [ " +
-        util::vector_to_string(black_point, 3) + " ]\n";
-    }
-    if (gamma)
-    {
-      contents += "   /Gamma [ " +
-        util::vector_to_string(gamma, 3) + " ]\n";
-    }
-    if (matrix && ColorProfile::Type::CALRGB == t)
-    {
-      contents += "   /Matrix [";
-      for (size_t i = 0; i < 3; ++i)
-      {
-        for (size_t j = 0; j < 3; ++j)
-        {
-          contents += " " + util::to_str(matrix[3 * i + j]);
-        }
-        contents += "\n            ";
-      }
-      contents += "]\n";
-    }
-    contents += ">>\n]";
+    contents = "[ /CalGray\n";
   }
+  contents += "<< /WhitePoint [ " +
+    util::vector_to_string(white_point, 3) + " ]\n";
+  if (black_point)
+  {
+    contents += "   /BlackPoint [ " +
+      util::vector_to_string(black_point, 3) + " ]\n";
+  }
+  if (gamma)
+  {
+    contents += "   /Gamma [ " +
+      util::vector_to_string(gamma, 3) + " ]\n";
+  }
+  if (matrix && ColorProfile::Type::CALRGB == t)
+  {
+    contents += "   /Matrix [";
+    for (size_t i = 0; i < 3; ++i)
+    {
+      for (size_t j = 0; j < 3; ++j)
+      {
+        contents += " " + util::to_str(matrix[3 * i + j]);
+      }
+      contents += "\n            ";
+    }
+    contents += "]\n";
+  }
+  contents += ">>\n]";
 }
 
 ColorProfile::ColorProfile(ColorProfile::Type t,
@@ -77,67 +75,61 @@ ColorProfile::ColorProfile(ColorProfile::Type t,
                            unsigned num_colors,
                            unsigned base_components)
 {
-  if (t == ColorProfile::Type::INDEXED)
+  if (t != ColorProfile::Type::INDEXED)
   {
-    contents = "[ /Indexed\n  ";
-    switch (base)
-    {
-    case COLORSPACE_DEVICERGB:
-      contents += "/DeviceRGB";
-      break;
-    case COLORSPACE_DEVICEGRAY:
-      contents += "/DeviceGray";
-      break;
-    case COLORSPACE_DEVICECMYK:
-      contents += "/DeviceCMYK";
-      break;
-    default:
-      contents += util::to_str(base) + " 0 R";
-      break;
-    }
-    contents += "\n  " + util::to_str(num_colors - 1) + "\n  (";
-    std::string colors_string;
-    std::stringstream colors_stream(colors_string);
-    for (unsigned color = 0; color < num_colors; ++color)
-    {
-      for (unsigned component = 0; component < base_components; ++component)
-      {
-        unsigned char c = colors[color][component];
-        colors_stream << c;
-      }
-    }
-    contents += colors_stream.str() + ")\n]";
+    throw std::runtime_error("color profile must be INDEXED");
   }
-  else
+
+  contents = "[ /Indexed\n  ";
+  switch (base)
   {
-    contents = "ERROR";
+  case COLORSPACE_DEVICERGB:
+    contents += "/DeviceRGB";
+    break;
+  case COLORSPACE_DEVICEGRAY:
+    contents += "/DeviceGray";
+    break;
+  case COLORSPACE_DEVICECMYK:
+    contents += "/DeviceCMYK";
+    break;
+  default:
+    contents += util::to_str(base) + " 0 R";
+    break;
   }
+  contents += "\n  " + util::to_str(num_colors - 1) + "\n  (";
+  std::string colors_string;
+  std::stringstream colors_stream(colors_string);
+  for (unsigned color = 0; color < num_colors; ++color)
+  {
+    for (unsigned component = 0; component < base_components; ++component)
+    {
+      unsigned char c = colors[color][component];
+      colors_stream << c;
+    }
+  }
+  contents += colors_stream.str() + ")\n]";
 }
 
 ColorProfile::ColorProfile(Type t, unsigned stream_id)
 {
   if (t != ColorProfile::Type::ICC)
   {
-    contents = "ERROR";
+    throw std::runtime_error("color profile must be ICC");
   }
-  else
-  {
-    contents = "[ /ICCBased " + util::to_str(stream_id) + " 0 R ]";
-  }
+
+  contents = "[ /ICCBased " + util::to_str(stream_id) + " 0 R ]";
 }
 
 ColorProfile::ColorProfile(Type t, std::string name, unsigned alt_cs_id, unsigned alt_f_id)
 {
   if (t != ColorProfile::Type::SEPARATION)
   {
-    contents = "ERROR";
+    throw std::runtime_error("color profile must be SEPARATION");
   }
-  else
-  {
-    contents = "[ /Separation /" + util::format_name(name) + " " +
-      util::color_profile_ref(alt_cs_id) + " " + util::to_str(alt_f_id) +
-      " 0 R ]";
-  }
+
+  contents = "[ /Separation /" + util::format_name(name) + " " +
+    util::color_profile_ref(alt_cs_id) + " " + util::to_str(alt_f_id) +
+    " 0 R ]";
 }
 
 } // namespace paddlefish

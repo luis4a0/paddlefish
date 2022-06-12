@@ -18,6 +18,7 @@
 #include "flate.h"
 #include <cstring>
 #include <cstdio>
+#include <stdexcept>
 
 namespace paddlefish {
 namespace flate{
@@ -111,7 +112,7 @@ std::ostream& deflate_file_to_stream(std::ostream& out_stream,
 
   if (NULL == source)
   {
-    return out_stream << "ERROR 0: deflate_file_to_stream(), flate.cpp";
+    throw std::runtime_error("error opening file \"" + filename + "\"");
   }
 
   int ret, flush;
@@ -126,7 +127,7 @@ std::ostream& deflate_file_to_stream(std::ostream& out_stream,
   ret = deflateInit(&strm, Z_BEST_COMPRESSION);
   if (ret != Z_OK)
   {
-    return out_stream << "ERROR 1: deflate_file_to_stream(), flate.cpp";
+    throw std::runtime_error("error deflating file \"" + filename + "\"");
   }
 
   do {
@@ -135,7 +136,7 @@ std::ostream& deflate_file_to_stream(std::ostream& out_stream,
     {
       (void)deflateEnd(&strm);
       fclose(source);
-      return out_stream << "ERROR 2: Z_ERRNO, deflate_file_to_stream(), flate.cpp";
+      throw std::runtime_error("Z_ERRNO deflating file \"" + filename + "\"");
     }
     flush = feof(source) ? Z_FINISH : Z_NO_FLUSH;
     strm.next_in = in;

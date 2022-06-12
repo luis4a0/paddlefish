@@ -355,6 +355,7 @@ std::string Image::get_image_filters()const
       break;
     default:
       filters="ERROR";
+      throw std::runtime_error("Unrecognized image format for \"" + filename + "\"");
       break;
   }
   filters += " ]";

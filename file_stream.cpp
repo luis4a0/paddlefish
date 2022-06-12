@@ -74,6 +74,10 @@ std::ostream& FileStream::to_stream(std::ostream& os) const
 
       lFile.close();
     }
+    else
+    {
+        throw std::runtime_error("error opening file \"" + filename + "\"");
+    }
   }
 
   stream_length = (unsigned)os.tellp() - lStreamStart;
