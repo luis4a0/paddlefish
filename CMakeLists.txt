@@ -36,6 +36,8 @@ add_library(paddlefish ${PADDLEFISH_LIB_TYPE} cid_to_gid.cpp color_profile.cpp
 set_target_properties(paddlefish PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(paddlefish PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
+include_directories(include ${CMAKE_SOURCE_DIR}/include)
+
 set(HEADERS cid_to_gid.h;color_profile.h;colorspace_properties.h;command.h;
     custom_object.h;document.h;file_stream.h;flate.h;font.h;graphics_state.h;
     image.h;info.h;ocg.h;page.h;pdf_object.h;resources_dict.h;text.h;

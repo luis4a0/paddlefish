@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "util.h"
-#include "colorspace_properties.h"
+#include <paddlefish/colorspace_properties.h>
+#include <paddlefish/util.h>
+
 #include <iterator>
 
 namespace paddlefish {

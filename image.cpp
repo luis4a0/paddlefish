@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "image.h"
-#include <fstream>
-#include "flate.h"
-#include "util.h"
-#include "colorspace_properties.h"
+#include <paddlefish/colorspace_properties.h>
+#include <paddlefish/flate.h>
+#include <paddlefish/image.h>
+#include <paddlefish/util.h>
+
 #include <cstring>
+#include <fstream>
 
 namespace paddlefish {
 

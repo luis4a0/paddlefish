@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -15,9 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <paddlefish/info.h>
+#include <paddlefish/util.h>
+
 #include <ctime>
-#include "info.h"
-#include "util.h"
 
 namespace paddlefish {
 

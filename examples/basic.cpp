@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -18,10 +18,11 @@
 // The icc files used in this test are in the icc-profiles-free Ubuntu
 // package, https://packages.ubuntu.com/focal/icc-profiles-free .
 
-#include <iostream>
+#include <paddlefish/document.h>
+
 #include <fstream>
+#include <iostream>
 #include <sstream>
-#include "../document.h"
 
 int main()
 {

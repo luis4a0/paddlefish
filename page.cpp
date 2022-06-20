@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "page.h"
-#include "colorspace_properties.h"
-#include "document.h"
-#include "util.h"
+#include <paddlefish/colorspace_properties.h>
+#include <paddlefish/document.h>
+#include <paddlefish/page.h>
+#include <paddlefish/util.h>
+
 #include <memory>
 
 namespace paddlefish {
