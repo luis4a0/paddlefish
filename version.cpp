@@ -15,12 +15,32 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PADDLEFISH_PADDLEFISH_H
-#define PADDLEFISH_PADDLEFISH_H
+#include <paddlefish/version.h>
 
-#include "document.h"
-#include "version.h"
+namespace paddlefish {
 
-#endif // PADDLEFISH_PADDLEFISH_H
+int version_major()
+{
+  return PADDLEFISH_VERSION_MAJOR;
+}
+
+int version_minor()
+{
+  return PADDLEFISH_VERSION_MINOR;
+}
+
+int version_patchlevel()
+{
+  return PADDLEFISH_VERSION_MINOR;
+}
+
+std::string version()
+{
+  return std::string{std::to_string(version_major()) + '.' +
+                     std::to_string(version_minor()) + '.' +
+                     std::to_string(version_patchlevel())};
+}
+
+} // namespace paddlefish
 
 // vim: ts=2:sw=2:expandtab
