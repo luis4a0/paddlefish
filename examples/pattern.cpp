@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <paddlefish/document.h>
+#include <paddlefish/paddlefish.h>
 
 #include <fstream>
 #include <iostream>

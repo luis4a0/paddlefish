@@ -18,7 +18,7 @@
 // The icc files used in this test are in the icc-profiles-free Ubuntu
 // package, https://packages.ubuntu.com/focal/icc-profiles-free .
 
-#include <paddlefish/document.h>
+#include <paddlefish/paddlefish.h>
 
 #include <fstream>
 #include <iostream>

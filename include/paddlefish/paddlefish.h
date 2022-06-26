@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -15,28 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <paddlefish/paddlefish.h>
+#ifndef PADDLEFISH_PADDLEFISH_H
+#define PADDLEFISH_PADDLEFISH_H
 
-#include <fstream>
-#include <iostream>
+#include "document.h"
 
-int main()
-{
-  paddlefish::DocumentPtr d(new paddlefish::Document());
+#endif // PADDLEFISH_PADDLEFISH_H
 
-  paddlefish::Info& info = d->get_info();
-  info.title = "Blank PDF";
-  info.author = "Luis";
-
-  paddlefish::PagePtr p(new paddlefish::Page());
-
-  p->set_mediabox(0, 0, MILIMETERS(210), MILIMETERS(297));
-
-  d->push_back_page(p);
-
-  std::ofstream f("blank.pdf",std::ios_base::out|std::ios_base::binary);
-  d->to_stream(f);
-  f.close();
-
-  return 0;
-}
+// vim: ts=2:sw=2:expandtab
