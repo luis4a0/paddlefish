@@ -38,11 +38,6 @@ set_target_properties(paddlefish PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
 include_directories(include ${CMAKE_SOURCE_DIR}/include)
 
-set(HEADERS cid_to_gid.h;color_profile.h;colorspace_properties.h;command.h;
-    custom_object.h;document.h;file_stream.h;flate.h;font.h;graphics_state.h;
-    image.h;info.h;ocg.h;page.h;pdf_object.h;resources_dict.h;text.h;
-    text_state.h;util.h)
-
 if(PADDLEFISH_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif(PADDLEFISH_BUILD_EXAMPLES)
@@ -55,7 +50,7 @@ endif(PADDLEFISH_USE_ZLIB)
 
 if (NOT MSVC)
 include(GNUInstallDirs)
-install(FILES ${HEADERS} DESTINATION "include")
+install(DIRECTORY include DESTINATION .)
 install(TARGETS paddlefish LIBRARY)
 
 target_link_libraries(paddlefish m)
