@@ -17,12 +17,23 @@
 
 #include <paddlefish/info.h>
 #include <paddlefish/util.h>
+#include <paddlefish/version.h>
 
 #include <ctime>
 
 namespace paddlefish {
 
-Info::Info():producer("Paddlefish"),creation_date(current_date()) {}
+Info::Info():producer("Paddlefish " + paddlefish::version() + " " +
+#ifdef PADDLEFISH_WINDOWS
+                      "Windows"
+#elif PADDLEFISH_MACOS
+                      "Mac"
+#elif PADDLEFISH_LINUX
+                      "Linux"
+#else
+                      "unknown"
+#endif
+    ), creation_date(current_date()) {}
 
 Info::~Info() {}
 
