@@ -7,3 +7,5 @@ foreach(EXAMPLE IN LISTS EXAMPLES)
     add_executable(${EXAMPLE} ${EXAMPLE}.cpp)
     target_link_libraries(${EXAMPLE} paddlefish)
 endforeach()
+
+install(TARGETS ${EXAMPLES} DESTINATION share/paddlefish/examples)

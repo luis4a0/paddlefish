@@ -37,31 +37,16 @@ add_compile_options(-DPADDLEFISH_VERSION_PATCH=${PROJECT_VERSION_PATCH})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-add_library(paddlefish ${PADDLEFISH_LIB_TYPE} cid_to_gid.cpp color_profile.cpp
-            colorspace_properties.cpp command.cpp custom_object.cpp
-            document.cpp file_stream.cpp flate.cpp font.cpp graphics_state.cpp
-            image.cpp info.cpp ocg.cpp page.cpp resources_dict.cpp text.cpp
-            text_state.cpp util.cpp version.cpp)
-
-set_target_properties(paddlefish PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(paddlefish PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
-
 include_directories(include ${CMAKE_SOURCE_DIR}/include)
+
+add_subdirectory(src)
 
 if(PADDLEFISH_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif(PADDLEFISH_BUILD_EXAMPLES)
 
-if(PADDLEFISH_USE_ZLIB)
-    find_package(ZLIB REQUIRED)
-    add_definitions(-DPADDLEFISH_USE_ZLIB)
-    target_link_libraries(paddlefish z)
-endif(PADDLEFISH_USE_ZLIB)
-
 if (NOT MSVC)
 include(GNUInstallDirs)
 install(DIRECTORY include DESTINATION .)
 install(TARGETS paddlefish LIBRARY)
-
-target_link_libraries(paddlefish m)
 endif (NOT MSVC)
