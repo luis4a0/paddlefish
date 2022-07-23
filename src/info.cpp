@@ -30,6 +30,8 @@ Info::Info():producer("Paddlefish " + paddlefish::version() + " " +
                       "Mac"
 #elif PADDLEFISH_LINUX
                       "Linux"
+#elif PADDLEFISH_FREEBSD
+                      "FreeBSD"
 #else
                       "unknown"
 #endif
