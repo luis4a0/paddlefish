@@ -10,10 +10,8 @@ foreach(EXAMPLE IN LISTS EXAMPLES)
         set_target_properties(${EXAMPLE}
                               PROPERTIES
                               INSTALL_RPATH
-                              "${CMAKE_INSTALL_PREFIX}/lib"
+                              "${CMAKE_INSTALL_PREFIX}/lib")
     endif(NOT WIN32)
-)
-
 endforeach()
 
 install(TARGETS ${EXAMPLES} DESTINATION share/paddlefish/examples)
