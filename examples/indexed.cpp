@@ -72,13 +72,23 @@ int main()
 
   d->push_back_page(p);
 
+  int ret = 0;
+
+  try
+  {
   std::ofstream f("indexed.pdf", std::ios_base::out | std::ios_base::binary);
   d->to_stream(f);
   f.close();
+  }
+  catch (std::runtime_error &e)
+  {
+    std::cout << "Error generating PDF: " << e.what() << std::endl;
+    ret = -1;
+  }
 
   for(size_t i=0; i<4; ++i)
     free(colors[i]);
   free(colors);
 
-  return 0;
+  return ret;
 }

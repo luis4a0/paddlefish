@@ -106,9 +106,17 @@ int main()
 
   d->push_back_page(p2);
 
-  std::ofstream f("basic.pdf",std::ios_base::out|std::ios_base::binary);
-  d->to_stream(f);
-  f.close();
+  try
+  {
+    std::ofstream f("basic.pdf",std::ios_base::out|std::ios_base::binary);
+    d->to_stream(f);
+    f.close();
+  }
+  catch (std::runtime_error &e)
+  {
+    std::cout << "Error generating PDF: " << e.what() << std::endl;
+    return -1;
+  }
 
   return 0;
 }
