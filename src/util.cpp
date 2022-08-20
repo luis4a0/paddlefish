@@ -88,7 +88,7 @@ std::string split_string(const std::string &s, unsigned split_columns)
     switch (r[i])
     {
       case ' ':
-        last_space = i;
+        last_space = (unsigned)i;
         break;
       case '\n':
         last_space = -1;
@@ -103,7 +103,7 @@ std::string split_string(const std::string &s, unsigned split_columns)
     if (column + 1 > split_columns && last_space != -1)
     {
       r[last_space] = '\n';
-      column = i - last_space;
+      column = (unsigned)i - last_space;
       last_space = -1;
     }
   }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -26,9 +26,11 @@
 #include "ocg.h"
 #include "resources_dict.h"
 #include "pdf_object.h"
+
+#include <ios>
 #include <ostream>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 namespace paddlefish {
 
@@ -263,12 +265,12 @@ class Document{
         // objects. This is not wrong because these offsets are only used
         // in the cross-reference tables and we will need only one at the
         // end of the document.
-        std::vector<unsigned> object_offsets;
+        std::vector<std::streamoff> object_offsets;
         // Usually zero, the position where the stream starts to be written.
-        unsigned long start_stream_position;
+        std::streamoff start_stream_position;
         // The offset of the cross-reference table, which is used in the
         // document trailer.
-        unsigned long xref_stream_position;
+        std::streamoff xref_stream_position;
         // This variable always contain the number of the next object to be
         // written to the stream.
         unsigned next_object_number;

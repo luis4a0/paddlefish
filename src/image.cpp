@@ -202,15 +202,6 @@ use_soft_mask(false)
     matrix[i] = matrix23[i];
 }
 
-Image::~Image()
-{
-  /*if (NULL != bytes)
-  {
-    free((void*)bytes);
-    bytes = NULL;
-  }*/
-}
-
 const std::string Image::get_contents() const
 {
   return std::string ("q\n" + util::matrix23_contents_to_string(matrix) +
@@ -256,20 +247,21 @@ void Image::fill_bytes(const unsigned char *source)
   if (use_flate)
   {
     unsigned bound = flate::deflate_bound(raw_size);
-    const unsigned char *bytes_raw_ptr = (const unsigned char*)malloc(bound * sizeof(const unsigned char));
-    bytes_size = flate::deflate_buffer_to_buffer(reinterpret_cast<const char*>(source),
-                                                 raw_size,
-                                                 const_cast<char*>(reinterpret_cast<const char*>(bytes_raw_ptr)),
-                                                 bound);
-    bytes = std::shared_ptr<const unsigned char>(bytes_raw_ptr);
+    bytes = std::shared_ptr<const unsigned char>(
+        (unsigned char*)malloc(bound * sizeof(const unsigned char)), free);
+    bytes_size = flate::deflate_buffer_to_buffer(
+        reinterpret_cast<const char*>(source),
+        raw_size,
+        const_cast<char*>(reinterpret_cast<const char*>(bytes.get())),
+        bound);
   }
   else
 #endif
   {
-    const unsigned char *bytes_raw_ptr = (const unsigned char*)malloc(raw_size * sizeof(const unsigned char));
-    memcpy(const_cast<unsigned char*>(bytes_raw_ptr), source, raw_size);
+    bytes = std::shared_ptr<const unsigned char>(
+        (unsigned char*)malloc(raw_size * sizeof(const unsigned char)), free);
+    memcpy(const_cast<unsigned char*>(bytes.get()), source, raw_size);
     bytes_size = raw_size;
-    bytes = std::shared_ptr<const unsigned char>(bytes_raw_ptr);
   }
 
   return;
@@ -280,28 +272,25 @@ unsigned Image::write_file_contents(std::ostream &o)const
 #ifdef PADDLEFISH_USE_ZLIB
     if(use_flate)
     {
-      unsigned start_pos = o.tellp();
+      auto start_pos = o.tellp();
       flate::deflate_file_to_stream(o, filename);
-      return (unsigned)o.tellp() - start_pos;
+      return (unsigned)(o.tellp() - start_pos);
     }
     else
 #endif
     {
         std::ifstream f(filename,std::ios_base::in|std::ios_base::binary);
-        unsigned start,end;
-        start=o.tellp();
+        auto start=o.tellp();
         o << f.rdbuf();
-        end=o.tellp();
+        auto end=o.tellp();
         f.close();
-        return end-start;
+        return (unsigned)(end - start);
     }
 }
 
 unsigned Image::write_bytes(std::ostream &o)const
 {
-  unsigned start,end;
-
-  start = o.tellp();
+  auto start = o.tellp();
 
   o.write(reinterpret_cast<const char*>(bytes.get()), bytes_size);
   /*std::string raw_image;
@@ -309,9 +298,9 @@ unsigned Image::write_bytes(std::ostream &o)const
     raw_image += bytes[i];
   o << raw_image;*/
 
-  end = o.tellp();
+  auto end = o.tellp();
 
-  return end-start;
+  return (unsigned)(end - start);
 }
 
 unsigned Image::write_image_stream(std::ostream &o)const

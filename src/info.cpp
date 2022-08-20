@@ -51,7 +51,12 @@ Info::date Info::current_date()
 
   // Return the time always in UTC.
   std::time_t t = std::time(0);
+#ifdef PADDLEFISH_WINDOWS
+  std::tm now[1];
+  gmtime_s(now, &t);
+#else
   std::tm* now = std::gmtime(&t);
+#endif
 
   return current +
          util::to_str(now->tm_year + 1900) +

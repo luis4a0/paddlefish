@@ -102,7 +102,7 @@ class Image: public PdfObject
               unsigned *decode_array,
               bool flate = true);
 
-        ~Image();
+        ~Image() {};
 
         std::ostream& to_stream(std::ostream &o) const { return o << get_contents(); }
 

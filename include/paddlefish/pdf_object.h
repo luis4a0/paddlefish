@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -43,6 +43,8 @@ struct PdfObject
   virtual std::ostream& to_stream(std::ostream &o) const = 0;
 
   virtual const std::string get_contents() const = 0;
+
+  virtual ~PdfObject() {}
 };
 
 } // namespace paddlefish

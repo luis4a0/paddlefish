@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -89,13 +89,13 @@ private:
   wchar_t first_char, last_char;
   unsigned widths_ref, font_descriptor_ref, font_file_ref, descendant_ref, map_ref;
   unsigned embedding = NOT_EMBEDDED;
-  unsigned flags;
-  double scale;
-  double ppEm;
+  [[maybe_unused]] unsigned flags;
+  [[maybe_unused]] double scale;
+  [[maybe_unused]] double ppEm;
 
   // Some data needed for the font descriptor dictionary.
-  double *font_bbox;
-  double italic_angle, ascent, descent, cap_height, stem_v;
+  [[maybe_unused]] double *font_bbox;
+  [[maybe_unused]] double italic_angle, ascent, descent, cap_height, stem_v;
 };
 
 } // namespace paddlefish

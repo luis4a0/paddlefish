@@ -28,10 +28,14 @@ else()
 endif()
 
 if(NOT MSVC)
-add_compile_options(-ansi)
-add_compile_options(-Wall)
-add_compile_options(-pedantic)
-endif (NOT MSVC)
+    add_compile_options(-ansi)
+    add_compile_options(-Wall)
+    add_compile_options(-pedantic)
+endif(NOT MSVC)
+
+if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+    add_compile_options(-Wno-attributes)
+endif("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
 
 add_compile_options(-DPADDLEFISH_VERSION_MAJOR=${PROJECT_VERSION_MAJOR})
 add_compile_options(-DPADDLEFISH_VERSION_MINOR=${PROJECT_VERSION_MINOR})

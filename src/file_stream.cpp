@@ -55,7 +55,7 @@ std::ostream& FileStream::to_stream(std::ostream& os) const
   os << header << "/Length " << util::to_str(object_number + 1) << " 0 R\n>>"
     << "\nstream\n";
   
-  unsigned lStreamStart = os.tellp();
+  auto lStreamStart = os.tellp();
 
 #ifdef PADDLEFISH_USE_ZLIB
   if (use_flate)
@@ -81,7 +81,7 @@ std::ostream& FileStream::to_stream(std::ostream& os) const
     }
   }
 
-  stream_length = (unsigned)os.tellp() - lStreamStart;
+  stream_length = os.tellp() - lStreamStart;
 
   os << "\nendstream";
 

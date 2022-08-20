@@ -145,7 +145,7 @@ class Page{
         // beginning of the stream.
         std::ostream& to_stream(
                 std::ostream &out_stream,
-                std::back_insert_iterator<std::vector<unsigned> > inserter);
+                std::back_insert_iterator<std::vector<std::streamoff> > inserter);
 
         // Get and set the page number and label.
         unsigned get_number() const { return page_number; }
@@ -154,10 +154,10 @@ class Page{
         void set_label(const std::string &label) { page_label = label; }
 
         // Sets the media box of the page.
-        void set_mediabox(float x_start,
-                          float y_start,
-                          float x_end,
-                          float y_end);
+        void set_mediabox(double x_start,
+                          double y_start,
+                          double x_end,
+                          double y_end);
 
         // Sets the object number assigned to this page and to all the
         // objects contained in it and returns the next free number.
@@ -241,7 +241,7 @@ class Page{
 
         // The media box can be regarded as the size of the page.
         // Usually, it is [0,0,size_x,size_y].
-        float mediabox[4];
+        double mediabox[4];
 
         // The object number of the current page. It is set when writing
         // the page to a stream.

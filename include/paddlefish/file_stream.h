@@ -67,7 +67,7 @@ protected:
 
   // The length of the stream object. I did this mutable to compute when
   // writing to a stream, which is a const function.
-  mutable unsigned stream_length;
+  mutable std::streamoff stream_length;
 };
 
 } // namespace paddlefish

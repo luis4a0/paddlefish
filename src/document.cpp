@@ -64,7 +64,7 @@ void Document::push_back_page(const PagePtr& page_ptr)
 
   pages.push_back(page_ptr);
 
-  page_ptr->set_number(pages.size());
+  page_ptr->set_number((unsigned int)pages.size());
 
   return;
 }
@@ -73,7 +73,7 @@ unsigned Document::add_standard_type1_font(const std::string& font_name)
 {
   // Search in the standard font list if this font was already added.
   // If yes, return its identifier.
-  for (size_t i = 0; i < body_objects.size(); ++i)
+  for (unsigned i = 0; i < (unsigned)body_objects.size(); ++i)
   {
     if (body_objects[i]->get_type() == PdfObject::Type::FONT &&
         std::dynamic_pointer_cast<Font>(body_objects[i])->get_font_type() ==
@@ -139,7 +139,7 @@ unsigned Document::add_icc_color_profile(const char *buffer,
   unsigned stream_id = add_custom_stream(buffer,
                                          length,
                                          extra_header.c_str(),
-                                         extra_header.length(),
+                                         (unsigned int)extra_header.length(),
                                          use_flate);
 
   // Put the object in the vector.
@@ -525,20 +525,17 @@ unsigned Document::add_image_resource(const unsigned char *bytes,
                                       bool flate)
 {
   // If the image has soft mask, then add first the mask.
-  unsigned soft_mask_id;
-  if (soft_mask != NULL)
-  {
-    soft_mask_id = add_image_resource(soft_mask,
-                                      NULL,
-                                      8,
-                                      1,
-                                      image_width,
-                                      image_height,
-                                      width,
-                                      height,
-                                      COLORSPACE_DEVICEGRAY,
-                                      flate);
-  }
+  unsigned soft_mask_id = soft_mask ? add_image_resource(soft_mask,
+                                                         NULL,
+                                                         8,
+                                                         1,
+                                                         image_width,
+                                                         image_height,
+                                                         width,
+                                                         height,
+                                                         COLORSPACE_DEVICEGRAY,
+                                                         flate)
+                                    : 0;
 
   // Encode the image contents in a string.
   std::string image_contents;
@@ -591,9 +588,9 @@ unsigned Document::add_custom_stream(const std::string &strm,
                                      bool flate)
 {
   return add_custom_stream(strm.c_str(),
-                           strm.length(),
+                           (unsigned int)strm.length(),
                            extra_header.c_str(),
-                           extra_header.length(),
+                           (unsigned int)extra_header.length(),
                            flate);
 }
 

@@ -32,7 +32,7 @@ namespace flate{
 
 std::string deflate_string(const std::string& str)
 {
-  return deflate_buffer(str.c_str(), str.size());
+  return deflate_buffer(str.c_str(), (unsigned)str.size());
 }
 
 // Based on http://panthema.net/2007/0328-ZLibString.html
@@ -78,7 +78,7 @@ std::string inflate_string(const std::string& deflated,
     memset(&z_str,0,sizeof(z_str));
     inflateInit(&z_str);
     z_str.next_in=(Bytef*)deflated.c_str();
-    z_str.avail_in=deflated.size();
+    z_str.avail_in=(uInt)deflated.size();
 
     int ret_value;
 
@@ -109,7 +109,12 @@ std::string inflate_string(const std::string& deflated,
 std::ostream& deflate_file_to_stream(std::ostream& out_stream,
                                      const std::string& filename)
 {
+#ifdef PADDLEFISH_WINDOWS
+  FILE *source;
+  fopen_s(&source, filename.c_str(), "rb");
+#else
   FILE *source = fopen(filename.c_str(), "rb");
+#endif
 
   if (NULL == source)
   {
@@ -132,7 +137,7 @@ std::ostream& deflate_file_to_stream(std::ostream& out_stream,
   }
 
   do {
-    strm.avail_in = fread(in, 1, CHUNK, source);
+    strm.avail_in = (uInt)fread(in, 1, CHUNK, source);
     if (ferror(source))
     {
       (void)deflateEnd(&strm);

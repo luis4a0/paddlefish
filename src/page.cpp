@@ -216,7 +216,7 @@ void Page::set_text_state(const TextStatePtr &new_ts)
 
 std::ostream& Page::to_stream(
         std::ostream &out_stream,
-        std::back_insert_iterator<std::vector<unsigned> > inserter)
+        std::back_insert_iterator<std::vector<std::streamoff> > inserter)
 {
   // We first gather the colorspace information on all the figures on
   // this page.
@@ -272,7 +272,7 @@ std::ostream& Page::to_stream(
     if (images_count > 0)
     {
       out_stream << "      /XObject <<\n";
-      size_t image_number = object_number + 3;
+      auto image_number = object_number + 3;
       for (size_t i = 0; i < page_objects.size(); ++i)
       {
         if (page_objects[i]->get_type() == PdfObject::Type::IMAGE)
@@ -326,7 +326,7 @@ std::ostream& Page::to_stream(
       (object_number+2) << " 0 R >>\nstream\n";
 
     // Page contents: commands and text.
-    unsigned stream_start = out_stream.tellp();
+    auto stream_start = out_stream.tellp();
     if (!page_objects.empty())
     {
       for (size_t i = 0; i < page_objects.size(); ++i)
@@ -343,7 +343,7 @@ std::ostream& Page::to_stream(
       }
     }
 
-    unsigned stream_end = out_stream.tellp();
+    auto stream_end = out_stream.tellp();
     out_stream << "endstream\nendobj\n";
     // Write now the stream length object.
     *inserter++ = out_stream.tellp();
@@ -351,14 +351,14 @@ std::ostream& Page::to_stream(
       stream_end-stream_start << "\nendobj\n";
     // Write the referenced images, the first object number
     // is object_number+3.
-    size_t image_number = object_number + 3;
+    auto image_number = object_number + 3;
     for(size_t ii = 0; ii < page_objects.size(); ++ii)
     {
       if(page_objects[ii]->get_type() == PdfObject::Type::IMAGE)
       {
         *inserter++ = out_stream.tellp();
         ImagePtr im = std::dynamic_pointer_cast<Image>(page_objects[ii]);
-        unsigned written = im->write_image(out_stream, image_number);
+        auto written = im->write_image(out_stream, image_number);
         *inserter++ = out_stream.tellp();
         out_stream << (image_number + 1) << " 0 obj\n   " << written <<
           "\nendobj\n";
@@ -383,10 +383,10 @@ std::ostream& Page::to_stream(
   return out_stream;
 }
 
-void Page::set_mediabox(float x_start,
-                        float y_start,
-                        float x_end,
-                        float y_end)
+void Page::set_mediabox(double x_start,
+                        double y_start,
+                        double x_end,
+                        double y_end)
 {
   mediabox[0] = x_start;
   mediabox[1] = y_start;
@@ -418,7 +418,7 @@ unsigned Page::set_object_number(unsigned id)
   }
 
   // Finally, we reserve object numbers for the OCG's of this page.
-  ret += ocgs.size();
+  ret += (unsigned)ocgs.size();
 
   return ret;
 }
@@ -633,7 +633,7 @@ void Page::gather_image_color_information()
 
   for (size_t i = 0; i < image_resources.size(); ++i)
   {
-    set_image_color_information(document_ptr->get_image_colorspace(i));
+    set_image_color_information(document_ptr->get_image_colorspace((unsigned)i));
   }
 
   return;
