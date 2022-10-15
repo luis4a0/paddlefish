@@ -25,6 +25,7 @@ project(paddlefish
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(PADDLEFISH_BUILD_EXAMPLES "Build examples" OFF)
 option(PADDLEFISH_USE_ZLIB "Use zlib" ON)
+option(PADDLEFISH_USE_STB_TRUETYPE "Use STB TrueType library" ON)
 
 if(BUILD_SHARED_LIBS)
     set(PADDLEFISH_LIB_TYPE "SHARED")
