@@ -77,6 +77,14 @@ std::string default_map()
 #undef MAP_ADD_MANY
 #undef MAP_ADD_RANGE
 
+std::string create_map(const TrueTypeFont& font)
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  return std::string();
+)
+}
+
 } // namespace cid_to_gid
 } // namespace paddlefish
 

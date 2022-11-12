@@ -92,6 +92,55 @@ unsigned Document::add_standard_type1_font(const std::string& font_name)
   return first_body_object_number + total_body_objects - 1;
 }
 
+unsigned Document::add_truetype_font(const TrueTypeFont* font, bool embed)
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  FontPtr f(new Font(Font::Type::TRUE_TYPE, font,
+                     (embed ? EMBEDDED_FONT : NOT_EMBEDDED)));
+
+  unsigned widths_id = add_custom_object(f->get_widths());
+  f->set_widths_ref(widths_id);
+
+  if (f->get_embedding() != NOT_EMBEDDED)
+  {
+    std::string filename = f->get_file_name();
+
+    // First we try to get the file name. If we manage to do it, then
+    // we directly set to deflate the file into the output PDF.
+    if (filename != "")
+    {
+      f->set_font_file_ref(add_custom_stream_from_file(filename, "", embed));
+    }
+    else
+    {
+      // Otherwise, we try to read the font program and copy it.
+      std::string font_program = f->get_font_program();
+      if (!font_program.empty())
+      {
+        f->set_font_file_ref(add_custom_stream(font_program, ""));
+      }
+    }
+  }
+
+  unsigned fd_id = add_custom_object(f->get_font_descriptor());
+  f->set_font_descriptor_ref(fd_id);
+
+  body_objects.push_back(f);
+  ++total_body_objects;
+
+  return first_body_object_number + total_body_objects - 1;
+)
+}
+
+std::pair<unsigned, std::string> Document::add_type2_cid_font
+  (const TrueTypeFont& font, bool embed, const std::string &name)
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  return std::make_pair(0, std::string());
+)
+}
+
 unsigned Document::add_type0_font(std::pair<unsigned, std::string> t2_font)
 {
   std::string object("<< /Type /Font\n   /Subtype /Type0\n   /BaseFont /");

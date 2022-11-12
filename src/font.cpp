@@ -16,6 +16,7 @@
 // along with paddlefish.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <paddlefish/font.h>
+#include <paddlefish/truetype.h>
 #include <paddlefish/util.h>
 
 #include <cmath>
@@ -26,6 +27,23 @@ Font::Font(const std::string &name):
   type(Type::STANDARD_TYPE_1),
   base_font(name) {}
 
+Font::Font(Type font_type, const TrueTypeFont* font, unsigned embed)
+:
+  type(font_type),
+  base_font(font->get_font_name()),
+  base_font_tag(generate_tag()),
+  first_char(font->get_first_char()),
+  last_char(font->get_last_char()),
+  widths_ref(0),
+  font_descriptor_ref(0),
+  font_file_ref(0),
+  embedding(embed)
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+)
+}
+
 const std::string Font::generate_tag()
 {
   std::string tag;
@@ -34,6 +52,48 @@ const std::string Font::generate_tag()
     tag += 'A' + rand() % 26;
   }
   return tag;
+}
+
+const std::string Font::get_widths() const
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  return std::string();
+)
+}
+
+const std::string Font::get_font_descriptor() const
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  return std::string();
+)
+}
+
+const std::string Font::get_file_name() const
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  return std::string();
+)
+}
+
+const std::string Font::get_font_program() const
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  return std::string();
+)
+}
+
+void Font::compute_font_bbox()
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  // TODO
+  font_bbox = (double*)malloc(4 * sizeof(double));
+
+  return;
+)
 }
 
 const std::string Font::get_contents() const

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -20,11 +20,15 @@
 
 #include <string>
 
+#include "truetype.h"
+
 namespace paddlefish {
 namespace cid_to_gid{
 
 // The default map is valid for many fonts. But unfortunately, not for all.
 std::string default_map();
+
+std::string create_map(const TrueTypeFont& font);
 
 } // namespace cid_to_gid
 } // namespace paddlefish

@@ -19,6 +19,8 @@
 #define PADDLEFISH_FONT_H
 
 #include "pdf_object.h"
+#include "truetype.h"
+
 #include <string>
 #include <memory>
 
@@ -45,9 +47,28 @@ public:
   // Constructor for a standard Type 1 font. Only the font name must be given.
   Font(const std::string &name);
 
+  Font(Type font_type, const TrueTypeFont* font, unsigned embed = EMBEDDED_FONT);
+
   // Generate the random six capitals tag for the font. This is used only
   // when the font is subset.
   const std::string generate_tag();
+
+  // Get a string containing the widths of this font. If the font is
+  // TrueType, then use the output as the /Widths array. If it is a
+  // Type 2 CID font, then use the output as the /W array.
+  const std::string get_widths() const;
+
+  // Get a string containing the font descriptor object for this font.
+  const std::string get_font_descriptor() const;
+
+  // Get the name of the file containing the font program.
+  const std::string get_file_name() const;
+
+  // Get a string containing the font program if possible.
+  const std::string get_font_program() const;
+
+  // Compute the font bounding box.
+  void compute_font_bbox();
 
   // Set the object number of the widths array.
   void set_widths_ref(unsigned ref) { widths_ref = ref; }
@@ -87,6 +108,7 @@ private:
 
   // Some data needed for the font dictionary.
   wchar_t first_char, last_char;
+  // stbtt_GetGlyphHMetrics() for the widths?
   unsigned widths_ref, font_descriptor_ref, font_file_ref, descendant_ref, map_ref;
   unsigned embedding = NOT_EMBEDDED;
   [[maybe_unused]] unsigned flags;

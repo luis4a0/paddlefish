@@ -26,6 +26,7 @@
 #include "ocg.h"
 #include "resources_dict.h"
 #include "pdf_object.h"
+#include "truetype.h"
 
 #include <ios>
 #include <ostream>
@@ -65,6 +66,19 @@ class Document{
         // It returns an identifier for the font, which must be used
         // when calling the text writing functions.
         unsigned add_standard_type1_font(const std::string& font_name);
+
+        // Add a TrueType font to the document, returning the font identifier
+        // analogous to the above function.
+        unsigned add_truetype_font(const TrueTypeFont* font,
+                                   bool embed = false);
+
+        // Type 2 fonts cannot be directly referenced on the PDF. They must be
+        // encapsulated as Type 0. This function adds a TrueType font as a Type
+        // 2 CID font. It returns the object identifier and font's name.
+        std::pair<unsigned, std::string> add_type2_cid_font(
+          const TrueTypeFont& font,
+          bool embed = false,
+          const std::string &name = "");
 
         // Add a Type 0 font with the CID Type 2 font given as argument as
         // descendant.
