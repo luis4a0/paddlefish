@@ -61,8 +61,10 @@ are currently supported by paddlefish.
 
 ## Fonts
 
-We support the 14 standard Type 1 fonts. Support for TrueType fonts is
-planned, ideally through Font Forge.
+The 14 standard Type 1 fonts are supported, as well as TrueType fonts through
+the [STB TrueType library](https://github.com/nothings/stb). The latter can be
+disabled with the `USE_STB_TRUETYPE` flag in CMake. Font subsetting is not
+currently supported but we plan to do this in the future.
 
 ## Graphics states
 
