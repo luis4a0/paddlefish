@@ -2,11 +2,7 @@ set(PADDLEFISH_SOURCES cid_to_gid.cpp color_profile.cpp
             colorspace_properties.cpp command.cpp custom_object.cpp
             document.cpp file_stream.cpp flate.cpp font.cpp graphics_state.cpp
             image.cpp info.cpp ocg.cpp page.cpp resources_dict.cpp text.cpp
-            text_state.cpp util.cpp version.cpp)
-
-if (PADDLEFISH_USE_STB_TRUETYPE)
-    set (PADDLEFISH_SOURCES ${PADDLEFISH_SOURCES} truetype.cpp)
-endif (PADDLEFISH_USE_STB_TRUETYPE)
+            text_state.cpp truetype.cpp util.cpp version.cpp)
 
 add_library(paddlefish ${PADDLEFISH_LIB_TYPE} ${PADDLEFISH_SOURCES})
 

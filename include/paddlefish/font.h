@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2023 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -22,7 +22,6 @@
 #include "truetype.h"
 
 #include <string>
-#include <memory>
 
 namespace paddlefish {
 
@@ -47,7 +46,8 @@ public:
   // Constructor for a standard Type 1 font. Only the font name must be given.
   Font(const std::string &name);
 
-  Font(Type font_type, const TrueTypeFont* font, unsigned embed = EMBEDDED_FONT);
+  Font(Type font_type, TrueTypeFontPtr font, unsigned embed = EMBEDDED_FONT);
+  ~Font();
 
   // Generate the random six capitals tag for the font. This is used only
   // when the font is subset.
@@ -56,7 +56,7 @@ public:
   // Get a string containing the widths of this font. If the font is
   // TrueType, then use the output as the /Widths array. If it is a
   // Type 2 CID font, then use the output as the /W array.
-  const std::string get_widths() const;
+  const std::string get_widths();
 
   // Get a string containing the font descriptor object for this font.
   const std::string get_font_descriptor() const;
@@ -106,18 +106,22 @@ private:
   std::string base_font;
   std::string base_font_tag;
 
+  TrueTypeFontPtr ttf;
+
   // Some data needed for the font dictionary.
   wchar_t first_char, last_char;
-  // stbtt_GetGlyphHMetrics() for the widths?
+
+  [[maybe_unused]] float scale;
   unsigned widths_ref, font_descriptor_ref, font_file_ref, descendant_ref, map_ref;
   unsigned embedding = NOT_EMBEDDED;
   [[maybe_unused]] unsigned flags;
-  [[maybe_unused]] double scale;
   [[maybe_unused]] double ppEm;
 
   // Some data needed for the font descriptor dictionary.
   [[maybe_unused]] double *font_bbox;
-  [[maybe_unused]] double italic_angle, ascent, descent, cap_height, stem_v;
+  [[maybe_unused]] double italic_angle, ascent, descent, leading, cap_height,
+    stem_v;
+  [[maybe_unused]] long *widths;
 };
 
 } // namespace paddlefish

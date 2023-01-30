@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2022-2023 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -39,70 +39,38 @@ throw std::runtime_error("TrueType fonts are not supported");
 #include <cstdio>
 #include <cstdlib>
 #include <filesystem>
+#include <memory>
 
 namespace paddlefish {
 
-struct TrueTypeFont
+class TrueTypeFont;
+typedef typename std::shared_ptr<TrueTypeFont> TrueTypeFontPtr;
+
+class TrueTypeFont
 {
-  TrueTypeFont(std::filesystem::path& file, int offset = 0)
-  {
-  PADDLEFISH_ONLY_TRUETYPE(
-    auto file_size = std::filesystem::file_size(file);
-    font_data =
-      (const unsigned char*)malloc(file_size * sizeof(const unsigned char));
+  public:
+  TrueTypeFont(std::filesystem::path& file, int index = 0);
+  ~TrueTypeFont();
 
-    FILE *source;
-    PADDLEFISH_FOPEN(source, file.generic_string().c_str(), "rb");
-    fread((void*)font_data, 1, file_size, source);
+  std::string get_file_name() const;
+  const unsigned char*  get_font_data() const;
+  std::string get_font_name() const;
+  wchar_t get_first_char() const;
+  wchar_t get_last_char() const;
+  float get_scale() const;
+  void get_bbox(double* font_bbox) const;
+  void get_vmetrics(double* ascent, double* descent, double* line_gap) const;
+  void get_widths(wchar_t first_char, wchar_t last_char, long* widths) const;
+  int get_flags() const;
+  int get_italic_angle() const;
+  int get_cap_height() const;
+  int get_stemv() const;
 
-    if (!stbtt_InitFont(&font_info, font_data, 0))
-      throw std::runtime_error("Error initializing TrueType font");
-  )
-  }
-
-  ~TrueTypeFont()
-  {
-  PADDLEFISH_ONLY_TRUETYPE(
-    free((void*)font_data);
-  )
-  }
-
-  std::string get_font_name() const
-  {
-  PADDLEFISH_ONLY_TRUETYPE(
-    int length;
-    int platformID = 1;
-    int encodingID = 0;
-    int languageID = 0;
-    int nameID = 0x006;
-    const char* ttf_name =
-      stbtt_GetFontNameString(&font_info, &length, platformID, encodingID,
-                              languageID, nameID);
-
-    return std::string(ttf_name, length);
-  )
-  }
-
-  wchar_t get_first_char() const
-  {
-  PADDLEFISH_ONLY_TRUETYPE(
-    // TODO
-    return 0;
-  )
-  }
-
-  wchar_t get_last_char() const
-  {
-  PADDLEFISH_ONLY_TRUETYPE(
-    // TODO
-    return 0;
-  )
-  }
-
-  stbtt_fontinfo font_info;
+  private:
+  std::filesystem::path& file_path;
   const unsigned char* font_data;
+  [[ maybe_unused ]] stbtt_fontinfo font_info;
 };
-
 } // namespace paddlefish
 
 #endif // PADDLEFISH_TRUETYPE_H

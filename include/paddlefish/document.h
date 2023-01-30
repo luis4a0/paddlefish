@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2023 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -69,8 +69,7 @@ class Document{
 
         // Add a TrueType font to the document, returning the font identifier
         // analogous to the above function.
-        unsigned add_truetype_font(const TrueTypeFont* font,
-                                   bool embed = false);
+        unsigned add_truetype_font(TrueTypeFontPtr font, bool embed = false);
 
         // Type 2 fonts cannot be directly referenced on the PDF. They must be
         // encapsulated as Type 0. This function adds a TrueType font as a Type
