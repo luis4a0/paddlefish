@@ -97,6 +97,13 @@ PADDLEFISH_ONLY_TRUETYPE(
 )
 }
 
+uint16_t paddlefish::TrueTypeFont::get_glyph_index(uint16_t c) const
+{
+PADDLEFISH_ONLY_TRUETYPE(
+  return stbtt_FindGlyphIndex(&font_info, c);
+)
+}
+
 float paddlefish::TrueTypeFont::get_scale() const
 {
 PADDLEFISH_ONLY_TRUETYPE(

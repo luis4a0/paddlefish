@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2023 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -28,7 +28,7 @@ namespace cid_to_gid{
 // The default map is valid for many fonts. But unfortunately, not for all.
 std::string default_map();
 
-std::string create_map(const TrueTypeFont& font);
+std::string create_map(TrueTypeFontPtr font);
 
 } // namespace cid_to_gid
 } // namespace paddlefish

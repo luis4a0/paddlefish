@@ -57,6 +57,7 @@ class TrueTypeFont
   std::string get_font_name() const;
   wchar_t get_first_char() const;
   wchar_t get_last_char() const;
+  uint16_t get_glyph_index(uint16_t c) const;
   float get_scale() const;
   void get_bbox(double* font_bbox) const;
   void get_vmetrics(double* ascent, double* descent, double* line_gap) const;

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Luis Peñaranda. All rights reserved.
+// Copyright (c) 2017-2023 Luis Peñaranda. All rights reserved.
 //
 // This file is part of paddlefish.
 //
@@ -77,11 +77,28 @@ std::string default_map()
 #undef MAP_ADD_MANY
 #undef MAP_ADD_RANGE
 
-std::string create_map(const TrueTypeFont& font)
+std::string create_map(TrueTypeFontPtr font)
 {
 PADDLEFISH_ONLY_TRUETYPE(
-  // TODO
-  return std::string();
+  size_t last_char_plus_one = font->get_last_char() + 1;
+
+  // Initially, the map is empty, that is, full of zeros.
+  std::string map(2 * last_char_plus_one, (unsigned char)0x00);
+
+  // The map is filled as indicated in the PDF reference, version 1.4,
+  // page 339 (see the entry CIDToGIDMap in table 5.13).
+  for (size_t c = font->get_first_char(); c <= last_char_plus_one; ++c)
+  {
+    uint16_t glyph_index = font->get_glyph_index(c);
+    if (glyph_index != (uint16_t)0)
+    {
+      // We need to split the returned index in two bytes.
+      map[2 * c    ] = (unsigned char)(glyph_index / 0x100);
+      map[2 * c + 1] = (unsigned char)(glyph_index % 0x100);
+    }
+  }
+
+  return map;
 )
 }
 
