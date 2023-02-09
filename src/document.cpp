@@ -134,11 +134,11 @@ PADDLEFISH_ONLY_TRUETYPE(
 }
 
 std::pair<unsigned, std::string> Document::add_type2_cid_font
-  (const TrueTypeFont& font, bool embed, const std::string &name)
+  (TrueTypeFontPtr font, bool embed, const std::string &name)
 {
 PADDLEFISH_ONLY_TRUETYPE(
   FontPtr f(new Font(Font::Type::CID_TYPE_2,
-                     std::make_shared<TrueTypeFont>(font),
+                     font,
                      (embed ? EMBEDDED_FONT : NOT_EMBEDDED)));
 
   if ("" != name)

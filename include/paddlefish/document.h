@@ -75,7 +75,7 @@ class Document{
         // encapsulated as Type 0. This function adds a TrueType font as a Type
         // 2 CID font. It returns the object identifier and font's name.
         std::pair<unsigned, std::string> add_type2_cid_font(
-          const TrueTypeFont& font,
+          TrueTypeFontPtr font,
           bool embed = false,
           const std::string &name = "");
 
