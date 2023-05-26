@@ -169,14 +169,17 @@ PADDLEFISH_ONLY_TRUETYPE(
         }
         else
         {
-          // Don't avoid zeroes in this case, since it would result in a
-          // longer array.
-          widths_str += util::to_str(from[i]) + " [ ";
-          for (wchar_t j = from[i]; j <= to[i]; ++j)
-          {
-            widths_str += util::to_str(widths[j - first_char]) + " ";
+          // Do this only if there is something significant to add. In
+          // particular, avoid empty brackets at the end of the array.
+          if (from[i] <= to[i]) {
+            // Don't avoid zeroes in this case, since it would result in a
+            // longer array.
+            widths_str += util::to_str(from[i]) + " [ ";
+            for (wchar_t j = from[i]; j <= to[i]; ++j) {
+              widths_str += util::to_str(widths[j - first_char]) + " ";
+            }
+            widths_str += "] ";
           }
-          widths_str += "] ";
         }
       }
 
