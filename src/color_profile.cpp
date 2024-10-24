@@ -61,7 +61,8 @@ ColorProfile::ColorProfile(ColorProfile::Type t,
     {
       for (size_t j = 0; j < 3; ++j)
       {
-        contents += " " + util::to_str(matrix[3 * i + j]);
+        contents += ' ';
+        contents += util::to_str(matrix[3 * i + j]);
       }
       contents += "\n            ";
     }

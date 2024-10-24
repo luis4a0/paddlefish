@@ -337,7 +337,7 @@ std::ostream& Document::write_header(std::ostream &out_stream)
         }
       }
       last_nesting_level = nesting_level;
-      out_stream << (" " + std::to_string(ocgs[iocg]->object_number) + " 0 R");
+      out_stream << ' ' << std::to_string(ocgs[iocg]->object_number) << " 0 R";
     }
     for (; last_nesting_level > 0; --last_nesting_level)
       out_stream << " ]";

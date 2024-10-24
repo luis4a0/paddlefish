@@ -42,7 +42,7 @@ Info::~Info() {}
 // x must be positive or zero.
 std::string Info::two_characters(int x)
 {
-  return (x < 10 ? "0" : "") + util::to_str(x);
+  return std::string{x < 10 ? "0" : ""} + util::to_str(x);
 }
 
 Info::date Info::current_date()

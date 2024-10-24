@@ -25,13 +25,13 @@ namespace util{
 
 // Returns a string containing the argument, formatted. This can be done
 // using std::to_string(), but sometimes it produces lots of zeros after
-//the period.
-template <class T> std::string to_str(T n) { return std::to_string(n); }
+// the period.
+template <class T> std::string to_str(const T &n) { return std::to_string(n); }
 
 // Specialization of the above function for floats and doubles.
-template <> std::string to_str(float n);
-template <> std::string to_str(double n);
-template <> std::string to_str(long double n);
+template <> std::string to_str(const float &n);
+template <> std::string to_str(const double &n);
+template <> std::string to_str(const long double &n);
 
 // Returns a vector as a space-separated string.
 template <class T>
@@ -42,7 +42,10 @@ std::string vector_to_string(T *vec, size_t vec_size)
   {
     vec_str += to_str(vec[0]);
     for (size_t i = 1; i < vec_size; ++i)
-      vec_str += " " + to_str(vec[i]);
+    {
+        vec_str += ' ';
+        vec_str += to_str(vec[i]);
+    }
   }
   return vec_str;
 }

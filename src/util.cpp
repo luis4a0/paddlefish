@@ -24,7 +24,7 @@ namespace paddlefish {
 namespace util{
 
 template <class F>
-std::string fp_to_str(F n)
+std::string fp_to_str(const F &n)
 {
   std::string n_str(std::to_string(n));
 
@@ -55,9 +55,9 @@ std::string fp_to_str(F n)
     return n_str.substr(0, lsd + 1);
 }
 
-template <> std::string to_str(float n) { return fp_to_str(n); }
-template <> std::string to_str(double n) { return fp_to_str(n); }
-template <> std::string to_str(long double n) { return fp_to_str(n); }
+template <> std::string to_str(const float &n) { return fp_to_str(n); }
+template <> std::string to_str(const double &n) { return fp_to_str(n); }
+template <> std::string to_str(const long double &n) { return fp_to_str(n); }
 
 std::string matrix23_contents_to_string(double *matrix)
 {
